@@ -2,13 +2,17 @@ import RPi.GPIO as GPIO
 import time
 import sensor
 
-maxStrength = 1000
+maxStrength = 0
+
 
 
 def calcSignalPercentage(signalStrength):
     global maxStrength 
     if signalStrength == 0:
       return 0
+
+    if signalStrength == -1:
+        return 100
     
     if signalStrength > maxStrength:
         maxStrength = signalStrength

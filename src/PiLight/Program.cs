@@ -7,8 +7,8 @@ namespace PiLight
 {
     class Program
     {
-        static int maxStrength = 1000;
-        static int blackoutTimer = 60;
+        static decimal maxStrength = 0.0m;
+        static int blackoutTimer = 500;
         static void Main(string[] args)
         {
             Console.WriteLine("Start");
@@ -51,7 +51,7 @@ namespace PiLight
             }
             return count;
         }
-        static int CalculateSignalStrengthPercentage(int signalStrength)
+        static decimal CalculateSignalStrengthPercentage(int signalStrength)
         {
             if (signalStrength == 0)
             {
@@ -68,11 +68,11 @@ namespace PiLight
                 maxStrength = signalStrength;
             }
 
-            return (signalStrength / maxStrength) * 100;
+            return (decimal.Parse(signalStrength.ToString()) / maxStrength) * 100.0m;
         }
         static bool IsDark(DateTime now)
         {
-            if(DateTime.Now > now.AddSeconds(blackoutTimer))
+            if(DateTime.Now > now.AddMilliseconds(blackoutTimer))
             {
                 return true;
             }

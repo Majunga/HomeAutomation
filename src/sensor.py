@@ -7,7 +7,7 @@ GPIO.setmode(GPIO.BOARD)
 
 output_pin = 7
 # Number of seconds before return pitch black signal
-blackoutTimer = 60
+blackoutTimer = 0.5
 
 # Check to see if it is pitch black
 def isDark(now):
@@ -53,7 +53,7 @@ def calcSignalPercentage(signalStrength):
     if signalStrength > maxStrength:
         maxStrength = signalStrength
 
-    signalPercentage = (signalStrength / maxStrength) * 100
+    signalPercentage = (float(signalStrength) / maxStrength) * 100
 
     return signalPercentage
 
