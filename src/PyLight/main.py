@@ -53,7 +53,7 @@ def AddData(device, value):
         print("Sending Data")
         
         lightSensor = [x for x in device["sensors"] if x["name"] == "Light"][0]
-        Api.PostData(device["device"]["id"], lightSensor, DATA)
+        Api.PostData(device["device"]["id"], lightSensor["id"], DATA)
         DATA.clear()
         
 
