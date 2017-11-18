@@ -51,11 +51,11 @@ def AddData(device, value):
 
     if len(DATA) > 1000:
         print("Sending Data")
-        NEWDATA = DATA
-        DATA.clear()
         
         lightSensor = [x for x in device["sensors"] if x.n == "Light"][0]
-        asyncio.ensure_future(Api.PostData(device["id"], lightSensor, NEWDATA))
+        Api.PostData(device["id"], lightSensor, DATA)
+        DATA.clear()
+        
 
 def main():
     try:
