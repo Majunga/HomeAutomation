@@ -21,14 +21,14 @@ def deviceSetup():
     if location["id"] == 0:
         print("Getting Location")
         location = Api.GetLocation(location["id"], location["name"], location["inside"])
-        print(f"Location: {location}")
+        print("Location: {0}").format(location))
         
     if deviceType["id"] == 0:
-        print(f"Getting Device Type")
+        print("Getting Device Type")
         deviceType = Api.GetDeviceType(deviceType["id"], deviceType["name"])
-        print(f"Device Type: {location}")
+        print("Device Type: {0}".format(deviceType))
         
-    print(f"Getting Sensors")
+    print("Getting Sensors")
     for item in sensors:
         if item["id"] > 0:
             pass
@@ -36,12 +36,12 @@ def deviceSetup():
         if newsensor["id"] > 0:
             sensors.remove(item)
             sensors.append(newsensor)
-    print(f"Sensors: {sensors}")
+    print("Sensors: {0}".format(sensors))
 
     if device["id"] == 0:
-        print(f"Getting Device")
+        print("Getting Device")
         device = Api.GetDevice(device["id"], device["name"], location, deviceType, sensors)
-        print(f"Device: {device}")
+        print("Device: {0}".format(location))
     
         
     return device
