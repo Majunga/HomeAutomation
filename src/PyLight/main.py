@@ -49,7 +49,7 @@ def deviceSetup():
 def AddData(device, value):
     DATA.append({ "percentageoflight": value, "creationdatetime": time.time() })
 
-    if DATA.count() > 1000:
+    if len(DATA) > 1000:
         print("Sending Data")
         NEWDATA = DATA
         DATA.clear()
