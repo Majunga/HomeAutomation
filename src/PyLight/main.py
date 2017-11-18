@@ -68,7 +68,7 @@ def main():
 
             AddData(device, signalPercentage)
 
-            print(signalPercentage)
+            #print(signalPercentage)
     except Exception as ex:
         print(ex)
     finally:
