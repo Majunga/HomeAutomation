@@ -78,7 +78,6 @@ def GetDeviceInfo(name):
 def PostData(deviceId, sensorId, data):
     payload = { "deviceId": deviceId, "sensorTypeId": sensorId, "data": data }
     headers = {'content-type': 'application/json'}
-    print(payload)    
     r = requests.post(config.APISETTINGS["url"]  + "/Data", data=json.dumps(payload), headers=headers)
     if r.status_code != 200:
         print(r.status_code)

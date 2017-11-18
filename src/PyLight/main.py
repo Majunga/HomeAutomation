@@ -1,4 +1,4 @@
-import time
+import datetime
 import RPi.GPIO as GPIO
 import sensor
 import Api
@@ -47,7 +47,7 @@ def deviceSetup():
     return device
 
 def AddData(device, value):
-    DATA.append({ "percentageoflight": value, "creationdatetime": time.time() })
+    DATA.append({ "percentageoflight": value, "creationdatetime": datetime.datetime.now() })
 
     if len(DATA) > 100:
         print("Sending Data")
