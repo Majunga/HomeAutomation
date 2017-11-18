@@ -47,7 +47,7 @@ def deviceSetup():
     return device
 
 def AddData(device, value):
-    DATA.append({ "percentageoflight": value, "creationdatetime": datetime.datetime.now() })
+    DATA.append({ "percentageoflight": value, "creationdatetime": "{0:%Y-%m-%d %H:%M:%S.%f}".format(datetime.datetime.now()) })
 
     if len(DATA) > 100:
         print("Sending Data")
