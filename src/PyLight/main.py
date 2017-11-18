@@ -21,7 +21,7 @@ def deviceSetup():
     if location["id"] == 0:
         print("Getting Location")
         location = Api.GetLocation(location["id"], location["name"], location["inside"])
-        print("Location: {0}").format(location))
+        print("Location: {0}".format(location))
         
     if deviceType["id"] == 0:
         print("Getting Device Type")
