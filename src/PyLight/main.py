@@ -3,6 +3,7 @@ import RPi.GPIO as GPIO
 import sensor
 import Api
 import config
+import asyncio
 
 DATA = []
 
@@ -37,9 +38,11 @@ def AddData(device, value):
     DATA.append({ "percentageoflight": value, "creationdatetime": time.time() })
 
     if DATA.count > 1000:
-        lightSensor = [x for x in device["sensors"] if x.n == "Light"][0]
-        Api.PostData(device["id"], lightSensor, DATA)
+        NEWDATA = DATA
         DATA.clear()
+        
+        lightSensor = [x for x in device["sensors"] if x.n == "Light"][0]
+        asyncio.ensure_future(Api.PostData(device["id"], lightSensor, NEWDATA))
 
 def main():
     try:
