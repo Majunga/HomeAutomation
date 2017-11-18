@@ -49,11 +49,12 @@ def deviceSetup():
 def AddData(device, value):
     DATA.append({ "percentageoflight": value, "creationdatetime": "{0:%Y-%m-%d %H:%M:%S.%f}".format(datetime.datetime.now()) })
 
-    if len(DATA) > 100:
+    if len(DATA) > 1000:
         print("Sending Data")
         
         lightSensor = [x for x in device["sensors"] if x["name"] == "Light"][0]
         Api.PostData(device["device"]["id"], lightSensor["id"], DATA)
+        print("Data Sent")
         DATA.clear()
         
 
