@@ -10,16 +10,16 @@ def setup():
 
 def GetLocation(id, name, inside):
 
-    print("Getting Location")
     payload = { 'id' : id, 'name' : name, 'inside' : inside}
     headers = {'content-type': 'application/json'}
     url = config.APISETTINGS["url"] + "/Location"
-    print(url)
+
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     if r.status_code == 200:
         return json.loads(r.text)["data"]
 
     else:
+        print(r.status_code)
         raise Exception(json.loads(r.text))
         
 def GetDeviceType(id, name):
@@ -33,6 +33,7 @@ def GetDeviceType(id, name):
         return json.loads(r.text)["data"]
 
     else:
+        print(r.status_code)
         raise Exception(json.loads(r.text))
         
 def GetSensor(id, name):
@@ -45,6 +46,8 @@ def GetSensor(id, name):
         return json.loads(r.text)["data"]
 
     else:
+        print(r.status_code)
+        
         raise Exception(json.loads(r.text))
 
 def GetDevice(id, name, location, deviceType, sensors):
@@ -56,6 +59,8 @@ def GetDevice(id, name, location, deviceType, sensors):
         return json.loads(r.text)["data"]
 
     else:
+        print(r.status_code)
+        
         raise Exception(json.loads(r.text))
 
         
@@ -66,6 +71,8 @@ def GetDeviceInfo(name):
         return json.loads(r.text)["data"]
 
     else:
+        print(r.status_code)
+        
         raise Exception(json.loads(r.text))
 
 def PostData(deviceId, sensorId, data):
@@ -74,6 +81,8 @@ def PostData(deviceId, sensorId, data):
     print(payload)    
     r = requests.post(config.APISETTINGS["url"]  + "/Data", data=json.dumps(payload), headers=headers)
     if r.status_code != 200:
+        print(r.status_code)
+        
         raise Exception(json.loads(r.text))
 
 # def main():
