@@ -52,7 +52,7 @@ def AddData(device, value):
     if len(DATA) > 100:
         print("Sending Data")
         
-        lightSensor = [x for x in device["sensors"] if x.name == "Light"][0]
+        lightSensor = [x for x in device["sensors"] if x["name"] == "Light"][0]
         Api.PostData(device["id"], lightSensor, DATA)
         DATA.clear()
         
