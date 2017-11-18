@@ -1,13 +1,11 @@
-# 
-#
-import RPi.GPIO as GPIO
 import time
+import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
 
-output_pin = 7
 # Number of seconds before return pitch black signal
 blackoutTimer = 0.5
+maxStrength = 0
 
 # Check to see if it is pitch black
 def isDark(now):
@@ -19,8 +17,7 @@ def isDark(now):
 # Get Sensor signal strength. 
 # The higher the number the weaker the light
 # -1 is returned if blackout timer is reached (this is so the program doesn't overflow or impact the device)
-def rc_time (output_pin):
-    global maxStrength 
+def rc_time(output_pin):
     count = 0
     now = time.time()
     
