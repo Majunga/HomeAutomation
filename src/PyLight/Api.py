@@ -69,29 +69,29 @@ def PostData(deviceId, sensorId, data):
     if r.status_code != 200:
         raise Exception(json.loads(r.text))
 
-def main():
-    try:
-        # location = GetLocation(0, "Inside", True)
+# def main():
+#     try:
+#         # location = GetLocation(0, "Inside", True)
 
-        # deviceType = GetDeviceType(0, "Test")
+#         # deviceType = GetDeviceType(0, "Test")
 
-        # sensor = GetSensor(0, "Light")
+#         # sensor = GetSensor(0, "Light")
         
-        # device = GetDevice(0, "Test", location, deviceType, [sensor])
+#         # device = GetDevice(0, "Test", location, deviceType, [sensor])
 
-        # deviceInfo = GetDeviceInfo("Test")
+#         # deviceInfo = GetDeviceInfo("Test")
 
-        # print(device)
-        # print(sensor)
-        # print("Post")
-        # PostData(device["device"]["id"], sensor["id"], [{"CreationDateTime": f"{datetime.datetime.now():%Y-%m-%d %H:%M:%S.%f}", "PercentageOfLight":  10.0 }, {"CreationDateTime": f"{datetime.datetime.now():%Y-%m-%d %H:%M:%S.%f}", "PercentageOfLight":  20.0 }])
-
-
-    except Exception as ex:
-        print (ex)
-        pass
+#         # print(device)
+#         # print(sensor)
+#         # print("Post")
+#         # PostData(device["device"]["id"], sensor["id"], [{"CreationDateTime": f"{datetime.datetime.now():%Y-%m-%d %H:%M:%S.%f}", "PercentageOfLight":  10.0 }, {"CreationDateTime": f"{datetime.datetime.now():%Y-%m-%d %H:%M:%S.%f}", "PercentageOfLight":  20.0 }])
 
 
+#     except Exception as ex:
+#         print (ex)
+#         pass
 
-if __name__ == '__main__':
-    main()
+
+
+# if __name__ == '__main__':
+#     main()
