@@ -2,10 +2,14 @@ import datetime
 import requests
 import json
 import config
+import urllib3.contrib.pyopenssl
 
+def setup():
+    urllib3.contrib.pyopenssl.inject_into_urllib3()
 
 
 def GetLocation(id, name, inside):
+
     print("Getting Location")
     payload = { 'id' : id, 'name' : name, 'inside' : inside}
     headers = {'content-type': 'application/json'}
@@ -19,6 +23,7 @@ def GetLocation(id, name, inside):
         raise Exception(json.loads(r.text))
         
 def GetDeviceType(id, name):
+    
     payload = { 'id' : id, 'name' : name}
     headers = {'content-type': 'application/json'}
 

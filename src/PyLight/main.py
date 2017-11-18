@@ -8,6 +8,7 @@ import asyncio
 DATA = []
 
 def deviceSetup():
+    Api.setup()
     location = config.APISETTINGS["location"]
     deviceType = config.APISETTINGS["deviceType"] 
     sensors = config.APISETTINGS["sensors"]
