@@ -81,8 +81,10 @@ def PostData(deviceId, sensorId, data):
     r = requests.post(config.APISETTINGS["url"]  + "/Data", data=json.dumps(payload), headers=headers)
     if r.status_code != 200:
         print(r.status_code)
-        
-        raise Exception(json.loads(r.text))
+        print(json.loads(r.text))
+        return False
+    else:
+        return True
 
 # def main():
 #     try:

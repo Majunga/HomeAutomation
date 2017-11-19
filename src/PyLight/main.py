@@ -53,9 +53,11 @@ def AddData(device, value):
         print("Sending Data")
         
         lightSensor = [x for x in device["sensors"] if x["name"] == "Light"][0]
-        Api.PostData(device["device"]["id"], lightSensor["id"], DATA)
+        response = Api.PostData(device["device"]["id"], lightSensor["id"], DATA)
         print("Data Sent")
-        DATA.clear()
+
+        if response:
+            DATA.clear()
         
 
 def main():
@@ -66,10 +68,10 @@ def main():
         while True:
             signalStrength = sensor.rc_time(config.APISETTINGS["pin"])
             signalPercentage = sensor.calcSignalPercentage(signalStrength)
-
-            AddData(device, signalPercentage)
-
-            #print(signalPercentage)
+            try:
+                AddData(device, signalPercentage)
+            except Exception:
+                pass
     except Exception as ex:
         print(ex)
     finally:
