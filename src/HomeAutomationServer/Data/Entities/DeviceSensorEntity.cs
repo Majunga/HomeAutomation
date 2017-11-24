@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HomeAutomationServer.Data.Entities
 {
@@ -7,10 +8,12 @@ namespace HomeAutomationServer.Data.Entities
     {
 
         [ForeignKey("FK_Device_DeviceId")]
+        [Required]
         public int DeviceId { get; set; }
         public DeviceEntity Device { get; set; }
 
         [ForeignKey("FK_SensorType_SensorTypeId")]
+        [Required]
         public int SensorTypeId { get; set; }
         public SensorEntity SensorType { get; set; }
     }
