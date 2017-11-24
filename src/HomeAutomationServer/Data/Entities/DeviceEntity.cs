@@ -20,8 +20,10 @@ namespace HomeAutomationServer.Data.Entities
         public int LocationId { get; set; }
         public LocationEntity Location { get; set; }
 
+        public string IpAddress { get; set; }
+
         public List<DeviceSensorEntity> DeviceSensors { get; set; }
 
-        public string IpAddress { get; set; }
+        public List<SettingEntity> Settings { get; set; }
     }
 }

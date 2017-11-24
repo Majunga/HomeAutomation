@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using HomeAutomationServer.Data.Entities;
 
 namespace HomeAutomationServer.Data
 {
@@ -21,5 +22,12 @@ namespace HomeAutomationServer.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<DeviceEntity> Devices { get; set; }
+        public DbSet<DeviceTypeEntity> DeviceTypes { get; set; }
+        public DbSet<LocationEntity> Locations { get; set; }
+        public DbSet<SensorEntity> Sensors { get; set; }
+        public DbSet<DeviceSensorEntity> DeviceSensors { get; set; }
+        public DbSet<SettingEntity> Settings { get; set; }
     }
 }
