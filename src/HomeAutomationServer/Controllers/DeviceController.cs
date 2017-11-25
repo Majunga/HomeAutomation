@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HomeAutomationServer.Data;
-using HomeAutomationServer.Data.Entities;
+using DataLayer.Entities;
 
 namespace HomeAutomationServer.Controllers
 {

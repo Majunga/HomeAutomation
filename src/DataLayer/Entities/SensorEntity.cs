@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HomeAutomationServer.Data.Entities
+namespace DataLayer.Entities
 {
     [Table(name: "HA_Sensor")]
     public class SensorEntity : EntityBaseClass

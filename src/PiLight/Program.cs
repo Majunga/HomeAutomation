@@ -1,82 +1,25 @@
 ﻿using System;
-using System.Threading;
-using Unosquare.RaspberryIO;
-using Unosquare.RaspberryIO.Gpio;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace PiLight
 {
-    class Program
+    public class Program
     {
-        static decimal maxStrength = 0.0m;
-        static int blackoutTimer = 500;
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Start");
-            var pin = Pi.Gpio.Pin07;
-            try
-            {
-                var signalStrength = SignalSensor(pin);
-
-                var percentage = CalculateSignalStrengthPercentage(signalStrength);
-
-                Console.WriteLine($"Signal Strength: {percentage}");
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex);
-                Console.ReadKey();
-            }
-
+            BuildWebHost(args).Run();
         }
-        static int SignalSensor(GpioPin pin)
-        {
-            var count = 0;
-            var now = DateTime.Now;
 
-            pin.PinMode = GpioPinDriveMode.Output;
-            pin.Write(GpioPinValue.Low);
-            Thread.Sleep(100);
-            pin.PinMode = GpioPinDriveMode.Input;
-
-            while(pin.ReadValue() == GpioPinValue.Low)
-            {
-                count++;
-
-                if (IsDark(now))
-                {
-                    maxStrength = count;
-                    Console.WriteLine($"Pitch black value: {count}");
-                    return -1;
-                }
-            }
-            return count;
-        }
-        static decimal CalculateSignalStrengthPercentage(int signalStrength)
-        {
-            if (signalStrength == 0)
-            {
-                return 0;
-            }
-
-            if (signalStrength == -1)
-            {
-                return 100;
-            }
-
-            if (signalStrength > maxStrength)
-            {
-                maxStrength = signalStrength;
-            }
-
-            return (decimal.Parse(signalStrength.ToString()) / maxStrength) * 100.0m;
-        }
-        static bool IsDark(DateTime now)
-        {
-            if(DateTime.Now > now.AddMilliseconds(blackoutTimer))
-            {
-                return true;
-            }
-            return false;
-        }
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
     }
 }
