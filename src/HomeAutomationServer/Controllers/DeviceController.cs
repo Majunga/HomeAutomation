@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using HomeAutomationServer.Data.Entities;
 using HomeAutomationServer.Data;
-using DataLayer.Entities;
 
 namespace HomeAutomationServer.Controllers
 {

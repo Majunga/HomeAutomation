@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataLayer.Entities
+namespace HomeAutomationServer.Data.Entities
 {
     [Table(name: "HA_Location")]
     public class LocationEntity : EntityBaseClass

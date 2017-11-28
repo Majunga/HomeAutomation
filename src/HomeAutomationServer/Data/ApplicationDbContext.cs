@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using DataLayer.Entities;
+using HomeAutomationServer.Data.Entities;
 
 namespace HomeAutomationServer.Data
 {
