@@ -113,7 +113,7 @@ namespace HomeAutomationClient
         /// </summary>
         private void Initialize()
         {
-            BaseUri = new System.Uri("http://localhost/");
+            BaseUri = new System.Uri("https://localhost:44339/");
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Newtonsoft.Json.Formatting.Indented,
