@@ -23,6 +23,7 @@ namespace HomeAutomationServer.Controllers
 
         // GET: api/Location
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<LocationEntity>), 200)]
         public IEnumerable<LocationEntity> GetLocations()
         {
             return _context.Locations;
@@ -30,6 +31,7 @@ namespace HomeAutomationServer.Controllers
 
         // GET: api/Location/5
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(LocationEntity), 200)]
         public async Task<IActionResult> GetLocationEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -49,6 +51,7 @@ namespace HomeAutomationServer.Controllers
 
         // PUT: api/Location/5
         [HttpPut("{id}")]
+        [ProducesResponseType(204)]
         public async Task<IActionResult> PutLocationEntity([FromRoute] int id, [FromBody] LocationEntity locationEntity)
         {
             if (!ModelState.IsValid)
@@ -84,6 +87,7 @@ namespace HomeAutomationServer.Controllers
 
         // POST: api/Location
         [HttpPost]
+        [ProducesResponseType(typeof(LocationEntity), 201)]
         public async Task<IActionResult> PostLocationEntity([FromBody] LocationEntity locationEntity)
         {
             if (!ModelState.IsValid)
@@ -99,6 +103,7 @@ namespace HomeAutomationServer.Controllers
 
         // DELETE: api/Location/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> DeleteLocationEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)
