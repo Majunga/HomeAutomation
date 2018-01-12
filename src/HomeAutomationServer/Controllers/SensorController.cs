@@ -23,6 +23,7 @@ namespace HomeAutomationServer.Controllers
 
         // GET: api/Sensor
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<SensorEntity>), 200)]
         public IEnumerable<SensorEntity> GetSensors()
         {
             return _context.Sensors;
@@ -30,6 +31,7 @@ namespace HomeAutomationServer.Controllers
 
         // GET: api/Sensor/5
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(SensorEntity), 200)]
         public async Task<IActionResult> GetSensorEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -49,6 +51,7 @@ namespace HomeAutomationServer.Controllers
 
         // PUT: api/Sensor/5
         [HttpPut("{id}")]
+        [ProducesResponseType(204)]
         public async Task<IActionResult> PutSensorEntity([FromRoute] int id, [FromBody] SensorEntity sensorEntity)
         {
             if (!ModelState.IsValid)
@@ -84,6 +87,7 @@ namespace HomeAutomationServer.Controllers
 
         // POST: api/Sensor
         [HttpPost]
+        [ProducesResponseType(typeof(SensorEntity), 201)]
         public async Task<IActionResult> PostSensorEntity([FromBody] SensorEntity sensorEntity)
         {
             if (!ModelState.IsValid)
@@ -99,6 +103,7 @@ namespace HomeAutomationServer.Controllers
 
         // DELETE: api/Sensor/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> DeleteSensorEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)

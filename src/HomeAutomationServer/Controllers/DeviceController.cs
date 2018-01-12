@@ -23,6 +23,7 @@ namespace HomeAutomationServer.Controllers
 
         // GET: api/Device
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<DeviceEntity>), 200)]
         public IEnumerable<DeviceEntity> GetDevices()
         {
             return _context.Devices;
@@ -30,6 +31,7 @@ namespace HomeAutomationServer.Controllers
 
         // GET: api/Device/5
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(DeviceEntity), 200)]
         public async Task<IActionResult> GetDeviceEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -49,6 +51,7 @@ namespace HomeAutomationServer.Controllers
 
         // PUT: api/Device/5
         [HttpPut("{id}")]
+        [ProducesResponseType(204)]
         public async Task<IActionResult> PutDeviceEntity([FromRoute] int id, [FromBody] DeviceEntity deviceEntity)
         {
             if (!ModelState.IsValid)
@@ -82,8 +85,13 @@ namespace HomeAutomationServer.Controllers
             return NoContent();
         }
 
-        // POST: api/Device
+        /// <summary>
+        /// Posts Device to server
+        /// </summary>
+        /// <param name="deviceEntity"></param>
+        /// <returns>DeviceEntity</returns>
         [HttpPost]
+        [ProducesResponseType(typeof(DeviceEntity), 201)]
         public async Task<IActionResult> PostDeviceEntity([FromBody] DeviceEntity deviceEntity)
         {
             if (!ModelState.IsValid)
@@ -99,6 +107,7 @@ namespace HomeAutomationServer.Controllers
 
         // DELETE: api/Device/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(201)]
         public async Task<IActionResult> DeleteDeviceEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -115,7 +124,7 @@ namespace HomeAutomationServer.Controllers
             _context.Devices.Remove(deviceEntity);
             await _context.SaveChangesAsync();
 
-            return Ok(deviceEntity);
+            return Ok();
         }
 
         private bool DeviceEntityExists(int id)
