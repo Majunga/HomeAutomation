@@ -57,30 +57,46 @@ namespace PiLight
             var sensors = homeAutomationAPI.ApiSensorGet();
             var devices = homeAutomationAPI.ApiDeviceGet();
 
-            LocationEntity location = null;
-            if(!locations.Where(x => x.Name == deviceConfig.Location).Any())
+            if(!locations.Where(x => x.Name == deviceConfig.Location.Name).Any())
             {
                 // Create Location
+                homeAutomationAPI.ApiLocationPost(new LocationEntity
+                {
+                    Name = deviceConfig.Location.Name,
+                    Inside = deviceConfig.Location.Inside
+                });
             }
 
-            DeviceTypeEntity deviceType = null;
             if (!deviceTypes.Where(x => x.Name == deviceConfig.DeviceTypeName).Any())
             {
                 // Create DeviceType
+                homeAutomationAPI.ApiDeviceTypePost(new DeviceTypeEntity
+                {
+                    Name = deviceConfig.DeviceTypeName
+                });
             }
-
-            List<SensorEntity> sensorList = new List<SensorEntity>();
 
             foreach(var sensor in deviceConfig.Sensors)
             {
                 if (!sensors.Where(x => x.Name == sensor).Any())
                 {
                     // Create Sensor
+                    homeAutomationAPI.ApiSensorPost(new SensorEntity
+                    {
+                        Name = sensor
+                    });
+
                 }
             }
+
             if (!devices.Where(x => x.Name == deviceConfig.Name).Any())
             {
                 // Create Device
+                homeAutomationAPI.ApiDevicePost(new DeviceEntity
+                {
+                    Name = deviceConfig.Name,
+                    
+                })
             }
 
         }
