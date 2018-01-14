@@ -1124,7 +1124,7 @@ namespace HomeAutomationClient
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<DeviceEntity>> ApiDeviceSensorPostWithHttpMessagesAsync(DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<DeviceSensorEntity>> ApiDeviceSensorPostWithHttpMessagesAsync(DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (deviceSensorEntity != null)
             {
@@ -1215,7 +1215,7 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse<DeviceEntity>();
+            var _result = new HttpOperationResponse<DeviceSensorEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
             // Deserialize Response
@@ -1224,7 +1224,7 @@ namespace HomeAutomationClient
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    _result.Body = SafeJsonConvert.DeserializeObject<DeviceEntity>(_responseContent, DeserializationSettings);
+                    _result.Body = SafeJsonConvert.DeserializeObject<DeviceSensorEntity>(_responseContent, DeserializationSettings);
                 }
                 catch (JsonException ex)
                 {
@@ -1260,7 +1260,7 @@ namespace HomeAutomationClient
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<DeviceEntity>> ApiDeviceSensorByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<DeviceSensorEntity>> ApiDeviceSensorByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -1342,7 +1342,7 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse<DeviceEntity>();
+            var _result = new HttpOperationResponse<DeviceSensorEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
             // Deserialize Response
@@ -1351,7 +1351,7 @@ namespace HomeAutomationClient
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    _result.Body = SafeJsonConvert.DeserializeObject<DeviceEntity>(_responseContent, DeserializationSettings);
+                    _result.Body = SafeJsonConvert.DeserializeObject<DeviceSensorEntity>(_responseContent, DeserializationSettings);
                 }
                 catch (JsonException ex)
                 {

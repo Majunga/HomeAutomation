@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using HomeAutomationClient;
 using HomeAutomationClient.ConfigModels;
 using HomeAutomationClient.Models;
+using System.Net;
 
 namespace PiLight
 {
@@ -32,7 +33,7 @@ namespace PiLight
 
             services.AddTransient<IHomeAutomationAPI, HomeAutomationAPI>(service => 
             {
-                return new HomeAutomationAPI();
+                return new HomeAutomationAPI(null);
             });
 
         }
@@ -53,52 +54,87 @@ namespace PiLight
         private void ConfigureDevice(IHomeAutomationAPI homeAutomationAPI, DeviceConfig deviceConfig)
         {
             var locations = homeAutomationAPI.ApiLocationGet();
-            var deviceTypes = homeAutomationAPI.ApiDeviceGet();
+            var deviceTypes = homeAutomationAPI.ApiDeviceTypeGet();
             var sensors = homeAutomationAPI.ApiSensorGet();
             var devices = homeAutomationAPI.ApiDeviceGet();
-
-            if(!locations.Where(x => x.Name == deviceConfig.Location.Name).Any())
+            
+            var locationResponse = locations.Where(x => x.Name == deviceConfig.Location.Name).FirstOrDefault();
+            if(locationResponse == null)
             {
                 // Create Location
-                homeAutomationAPI.ApiLocationPost(new LocationEntity
+                locationResponse =  homeAutomationAPI.ApiLocationPost(new LocationEntity
                 {
                     Name = deviceConfig.Location.Name,
                     Inside = deviceConfig.Location.Inside
                 });
             }
 
-            if (!deviceTypes.Where(x => x.Name == deviceConfig.DeviceTypeName).Any())
+            var deviceTypeResponse = deviceTypes.Where(x => x.Name == deviceConfig.DeviceTypeName).FirstOrDefault();
+            if (deviceTypeResponse == null)
             {
                 // Create DeviceType
-                homeAutomationAPI.ApiDeviceTypePost(new DeviceTypeEntity
+                deviceTypeResponse = homeAutomationAPI.ApiDeviceTypePost(new DeviceTypeEntity
                 {
                     Name = deviceConfig.DeviceTypeName
                 });
             }
 
+            var sensorsResponse = new List<SensorEntity>();
             foreach(var sensor in deviceConfig.Sensors)
             {
                 if (!sensors.Where(x => x.Name == sensor).Any())
                 {
                     // Create Sensor
-                    homeAutomationAPI.ApiSensorPost(new SensorEntity
+                    sensorsResponse.Add(homeAutomationAPI.ApiSensorPost(new SensorEntity
                     {
                         Name = sensor
-                    });
+                    }));
 
+                }
+                else
+                {
+                    sensorsResponse.Add(sensors.Where(x => x.Name == sensor).FirstOrDefault());
                 }
             }
 
-            if (!devices.Where(x => x.Name == deviceConfig.Name).Any())
+            var deviceResponse = devices.Where(x => x.Name == deviceConfig.Name).FirstOrDefault();
+
+            if (deviceResponse == null)
             {
                 // Create Device
-                homeAutomationAPI.ApiDevicePost(new DeviceEntity
+                deviceResponse = homeAutomationAPI.ApiDevicePost(new DeviceEntity
                 {
                     Name = deviceConfig.Name,
-                    
-                })
+                    Location = locationResponse,
+                    LocationId = locationResponse.Id.Value,
+                    DeviceType = deviceTypeResponse,
+                    DeviceTypeId = deviceTypeResponse.Id.Value,
+                    IpAddress = GetIPAddress()?.ToString() ?? ""
+                });
             }
 
+            var deviceSensorResponse = deviceResponse.DeviceSensors;
+
+            foreach(var sensor in sensorsResponse)
+            {
+                if(!deviceSensorResponse.Where(x => x.Id == sensor.Id).Any())
+                {
+                    deviceResponse.DeviceSensors.Add(homeAutomationAPI.ApiDeviceSensorPost(new DeviceSensorEntity
+                    {
+                        SensorTypeId = sensor.Id.Value,
+                        DeviceId = deviceResponse.Id.Value
+                    }));
+                }
+            }
+            Config.DeviceConfig = deviceResponse;
+        }
+        private IPAddress GetIPAddress()
+        {
+            var hostname = Dns.GetHostName();
+            // Then using host name, get the IP address list..
+            var ipEntry = Dns.GetHostEntry(hostname);
+            var addr = ipEntry.AddressList;
+            return addr.Where(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).FirstOrDefault();
         }
     }
 }

@@ -10,18 +10,29 @@ using HomeAutomationServer.Data.Entities;
 
 namespace HomeAutomationServer.Controllers
 {
+    /// <summary>
+    /// Controller for interacting with the Device Sensor Table
+    /// </summary>
     [Produces("application/json")]
     [Route("api/DeviceSensor")]
     public class DeviceSensorController : Controller
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Constructor to create context
+        /// </summary>
+        /// <param name="context"></param>
         public DeviceSensorController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: api/DeviceSensorEntities
+        /// <summary>
+        /// Get all Device Sensors
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<DeviceSensorEntity>), 200)]
         public IEnumerable<DeviceSensorEntity> GetDeviceSensors()
@@ -30,8 +41,13 @@ namespace HomeAutomationServer.Controllers
         }
 
         // GET: api/DeviceSensorEntities/5
+        /// <summary>
+        /// Get Device Sensor by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(DeviceEntity), 200)]
+        [ProducesResponseType(typeof(DeviceSensorEntity), 200)]
         public async Task<IActionResult> GetDeviceSensorEntity([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -50,6 +66,12 @@ namespace HomeAutomationServer.Controllers
         }
 
         // PUT: api/DeviceSensorEntities/5
+        /// <summary>
+        /// Update Device Sensor
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="deviceSensorEntity"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         public async Task<IActionResult> PutDeviceSensorEntity([FromRoute] int id, [FromBody] DeviceSensorEntity deviceSensorEntity)
@@ -86,8 +108,13 @@ namespace HomeAutomationServer.Controllers
         }
 
         // POST: api/DeviceSensorEntities
+        /// <summary>
+        /// Create Device Sensor
+        /// </summary>
+        /// <param name="deviceSensorEntity"></param>
+        /// <returns></returns>
         [HttpPost]
-        [ProducesResponseType(typeof(DeviceEntity), 201)]
+        [ProducesResponseType(typeof(DeviceSensorEntity), 201)]
         public async Task<IActionResult> PostDeviceSensorEntity([FromBody] DeviceSensorEntity deviceSensorEntity)
         {
             if (!ModelState.IsValid)
@@ -102,6 +129,11 @@ namespace HomeAutomationServer.Controllers
         }
 
         // DELETE: api/DeviceSensorEntities/5
+        /// <summary>
+        /// Delete Device Sensor
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
         public async Task<IActionResult> DeleteDeviceSensorEntity([FromRoute] int id)

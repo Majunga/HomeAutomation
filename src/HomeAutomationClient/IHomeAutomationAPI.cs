@@ -117,7 +117,7 @@ namespace HomeAutomationClient
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<DeviceEntity>> ApiDeviceSensorPostWithHttpMessagesAsync(DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<DeviceSensorEntity>> ApiDeviceSensorPostWithHttpMessagesAsync(DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name='id'>
         /// </param>
@@ -127,7 +127,7 @@ namespace HomeAutomationClient
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<DeviceEntity>> ApiDeviceSensorByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<DeviceSensorEntity>> ApiDeviceSensorByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name='id'>
         /// </param>

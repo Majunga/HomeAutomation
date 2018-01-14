@@ -193,7 +193,7 @@ namespace HomeAutomationClient
             /// </param>
             /// <param name='deviceSensorEntity'>
             /// </param>
-            public static DeviceEntity ApiDeviceSensorPost(this IHomeAutomationAPI operations, DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity))
+            public static DeviceSensorEntity ApiDeviceSensorPost(this IHomeAutomationAPI operations, DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity))
             {
                 return operations.ApiDeviceSensorPostAsync(deviceSensorEntity).GetAwaiter().GetResult();
             }
@@ -206,7 +206,7 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<DeviceEntity> ApiDeviceSensorPostAsync(this IHomeAutomationAPI operations, DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<DeviceSensorEntity> ApiDeviceSensorPostAsync(this IHomeAutomationAPI operations, DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity), CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.ApiDeviceSensorPostWithHttpMessagesAsync(deviceSensorEntity, null, cancellationToken).ConfigureAwait(false))
                 {
@@ -219,7 +219,7 @@ namespace HomeAutomationClient
             /// </param>
             /// <param name='id'>
             /// </param>
-            public static DeviceEntity ApiDeviceSensorByIdGet(this IHomeAutomationAPI operations, int id)
+            public static DeviceSensorEntity ApiDeviceSensorByIdGet(this IHomeAutomationAPI operations, int id)
             {
                 return operations.ApiDeviceSensorByIdGetAsync(id).GetAwaiter().GetResult();
             }
@@ -232,7 +232,7 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<DeviceEntity> ApiDeviceSensorByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<DeviceSensorEntity> ApiDeviceSensorByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
             {
                 using (var _result = await operations.ApiDeviceSensorByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
                 {
