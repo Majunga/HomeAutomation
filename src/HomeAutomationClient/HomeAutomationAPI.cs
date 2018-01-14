@@ -35,12 +35,17 @@ namespace HomeAutomationClient
         public JsonSerializerSettings DeserializationSettings { get; private set; }
 
         /// <summary>
+        /// Subscription credentials which uniquely identify client subscription.
+        /// </summary>
+        public ServiceClientCredentials Credentials { get; private set; }
+
+        /// <summary>
         /// Initializes a new instance of the HomeAutomationAPI class.
         /// </summary>
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        public HomeAutomationAPI(params DelegatingHandler[] handlers) : base(handlers)
+        protected HomeAutomationAPI(params DelegatingHandler[] handlers) : base(handlers)
         {
             Initialize();
         }
@@ -54,7 +59,7 @@ namespace HomeAutomationClient
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        public HomeAutomationAPI(HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : base(rootHandler, handlers)
+        protected HomeAutomationAPI(HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : base(rootHandler, handlers)
         {
             Initialize();
         }
@@ -71,7 +76,7 @@ namespace HomeAutomationClient
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when a required parameter is null
         /// </exception>
-        public HomeAutomationAPI(System.Uri baseUri, params DelegatingHandler[] handlers) : this(handlers)
+        protected HomeAutomationAPI(System.Uri baseUri, params DelegatingHandler[] handlers) : this(handlers)
         {
             if (baseUri == null)
             {
@@ -95,13 +100,135 @@ namespace HomeAutomationClient
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when a required parameter is null
         /// </exception>
-        public HomeAutomationAPI(System.Uri baseUri, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
+        protected HomeAutomationAPI(System.Uri baseUri, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
         {
             if (baseUri == null)
             {
                 throw new System.ArgumentNullException("baseUri");
             }
             BaseUri = baseUri;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the HomeAutomationAPI class.
+        /// </summary>
+        /// <param name='credentials'>
+        /// Required. Subscription credentials which uniquely identify client subscription.
+        /// </param>
+        /// <param name='handlers'>
+        /// Optional. The delegating handlers to add to the http client pipeline.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        public HomeAutomationAPI(ServiceClientCredentials credentials, params DelegatingHandler[] handlers) : this(handlers)
+        {
+            if (credentials == null)
+            {
+                throw new System.ArgumentNullException("credentials");
+            }
+            Credentials = credentials;
+            if (Credentials != null)
+            {
+                Credentials.InitializeServiceClient(this);
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the HomeAutomationAPI class.
+        /// </summary>
+        /// <param name='credentials'>
+        /// Required. Subscription credentials which uniquely identify client subscription.
+        /// </param>
+        /// <param name='rootHandler'>
+        /// Optional. The http client handler used to handle http transport.
+        /// </param>
+        /// <param name='handlers'>
+        /// Optional. The delegating handlers to add to the http client pipeline.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        public HomeAutomationAPI(ServiceClientCredentials credentials, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
+        {
+            if (credentials == null)
+            {
+                throw new System.ArgumentNullException("credentials");
+            }
+            Credentials = credentials;
+            if (Credentials != null)
+            {
+                Credentials.InitializeServiceClient(this);
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the HomeAutomationAPI class.
+        /// </summary>
+        /// <param name='baseUri'>
+        /// Optional. The base URI of the service.
+        /// </param>
+        /// <param name='credentials'>
+        /// Required. Subscription credentials which uniquely identify client subscription.
+        /// </param>
+        /// <param name='handlers'>
+        /// Optional. The delegating handlers to add to the http client pipeline.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        public HomeAutomationAPI(System.Uri baseUri, ServiceClientCredentials credentials, params DelegatingHandler[] handlers) : this(handlers)
+        {
+            if (baseUri == null)
+            {
+                throw new System.ArgumentNullException("baseUri");
+            }
+            if (credentials == null)
+            {
+                throw new System.ArgumentNullException("credentials");
+            }
+            BaseUri = baseUri;
+            Credentials = credentials;
+            if (Credentials != null)
+            {
+                Credentials.InitializeServiceClient(this);
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the HomeAutomationAPI class.
+        /// </summary>
+        /// <param name='baseUri'>
+        /// Optional. The base URI of the service.
+        /// </param>
+        /// <param name='credentials'>
+        /// Required. Subscription credentials which uniquely identify client subscription.
+        /// </param>
+        /// <param name='rootHandler'>
+        /// Optional. The http client handler used to handle http transport.
+        /// </param>
+        /// <param name='handlers'>
+        /// Optional. The delegating handlers to add to the http client pipeline.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when a required parameter is null
+        /// </exception>
+        public HomeAutomationAPI(System.Uri baseUri, ServiceClientCredentials credentials, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
+        {
+            if (baseUri == null)
+            {
+                throw new System.ArgumentNullException("baseUri");
+            }
+            if (credentials == null)
+            {
+                throw new System.ArgumentNullException("credentials");
+            }
+            BaseUri = baseUri;
+            Credentials = credentials;
+            if (Credentials != null)
+            {
+                Credentials.InitializeServiceClient(this);
+            }
         }
 
         /// <summary>
@@ -113,7 +240,7 @@ namespace HomeAutomationClient
         /// </summary>
         private void Initialize()
         {
-            BaseUri = new System.Uri("https://localhost:44339/");
+            BaseUri = new System.Uri("http://localhost");
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Newtonsoft.Json.Formatting.Indented,
@@ -190,6 +317,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -289,6 +422,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -354,6 +493,9 @@ namespace HomeAutomationClient
             return _result;
         }
 
+        /// <summary>
+        /// Posts Device to server
+        /// </summary>
         /// <param name='deviceEntity'>
         /// </param>
         /// <param name='customHeaders'>
@@ -365,10 +507,13 @@ namespace HomeAutomationClient
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiDevicePostWithHttpMessagesAsync(DeviceEntity deviceEntity = default(DeviceEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<DeviceEntity>> ApiDevicePostWithHttpMessagesAsync(DeviceEntity deviceEntity = default(DeviceEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (deviceEntity != null)
             {
@@ -416,6 +561,12 @@ namespace HomeAutomationClient
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -430,7 +581,7 @@ namespace HomeAutomationClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 201)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -453,9 +604,27 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse();
+            var _result = new HttpOperationResponse<DeviceEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 201)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = SafeJsonConvert.DeserializeObject<DeviceEntity>(_responseContent, DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
@@ -474,10 +643,13 @@ namespace HomeAutomationClient
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiDeviceByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<DeviceEntity>> ApiDeviceByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -516,6 +688,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -553,9 +731,27 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse();
+            var _result = new HttpOperationResponse<DeviceEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 200)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = SafeJsonConvert.DeserializeObject<DeviceEntity>(_responseContent, DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
@@ -629,6 +825,12 @@ namespace HomeAutomationClient
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -643,7 +845,7 @@ namespace HomeAutomationClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 204)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -729,6 +931,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -743,7 +951,7 @@ namespace HomeAutomationClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 201)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -828,6 +1036,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -904,10 +1118,13 @@ namespace HomeAutomationClient
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiDeviceSensorPostWithHttpMessagesAsync(DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<DeviceEntity>> ApiDeviceSensorPostWithHttpMessagesAsync(DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (deviceSensorEntity != null)
             {
@@ -955,6 +1172,12 @@ namespace HomeAutomationClient
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -969,7 +1192,7 @@ namespace HomeAutomationClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 201)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -992,9 +1215,27 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse();
+            var _result = new HttpOperationResponse<DeviceEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 201)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = SafeJsonConvert.DeserializeObject<DeviceEntity>(_responseContent, DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
@@ -1013,10 +1254,13 @@ namespace HomeAutomationClient
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiDeviceSensorByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<DeviceEntity>> ApiDeviceSensorByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -1055,6 +1299,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1092,9 +1342,27 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse();
+            var _result = new HttpOperationResponse<DeviceEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 200)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = SafeJsonConvert.DeserializeObject<DeviceEntity>(_responseContent, DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
@@ -1168,6 +1436,12 @@ namespace HomeAutomationClient
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1182,7 +1456,7 @@ namespace HomeAutomationClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 204)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -1268,6 +1542,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1367,6 +1647,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1443,10 +1729,13 @@ namespace HomeAutomationClient
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiDeviceTypePostWithHttpMessagesAsync(DeviceTypeEntity deviceTypeEntity = default(DeviceTypeEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<DeviceTypeEntity>> ApiDeviceTypePostWithHttpMessagesAsync(DeviceTypeEntity deviceTypeEntity = default(DeviceTypeEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (deviceTypeEntity != null)
             {
@@ -1494,6 +1783,12 @@ namespace HomeAutomationClient
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1508,7 +1803,7 @@ namespace HomeAutomationClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 201)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -1531,9 +1826,27 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse();
+            var _result = new HttpOperationResponse<DeviceTypeEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 201)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = SafeJsonConvert.DeserializeObject<DeviceTypeEntity>(_responseContent, DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
@@ -1552,10 +1865,13 @@ namespace HomeAutomationClient
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiDeviceTypeByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<DeviceTypeEntity>> ApiDeviceTypeByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -1594,6 +1910,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1631,9 +1953,27 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse();
+            var _result = new HttpOperationResponse<DeviceTypeEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 200)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = SafeJsonConvert.DeserializeObject<DeviceTypeEntity>(_responseContent, DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
@@ -1707,6 +2047,12 @@ namespace HomeAutomationClient
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1721,7 +2067,7 @@ namespace HomeAutomationClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 204)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -1807,6 +2153,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1906,6 +2258,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -1982,10 +2340,13 @@ namespace HomeAutomationClient
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiLocationPostWithHttpMessagesAsync(LocationEntity locationEntity = default(LocationEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<LocationEntity>> ApiLocationPostWithHttpMessagesAsync(LocationEntity locationEntity = default(LocationEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (locationEntity != null)
             {
@@ -2033,6 +2394,12 @@ namespace HomeAutomationClient
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -2047,7 +2414,7 @@ namespace HomeAutomationClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 201)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -2070,9 +2437,27 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse();
+            var _result = new HttpOperationResponse<LocationEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 201)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = SafeJsonConvert.DeserializeObject<LocationEntity>(_responseContent, DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
@@ -2091,10 +2476,13 @@ namespace HomeAutomationClient
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiLocationByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<LocationEntity>> ApiLocationByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -2133,6 +2521,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -2170,9 +2564,27 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse();
+            var _result = new HttpOperationResponse<LocationEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 200)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = SafeJsonConvert.DeserializeObject<LocationEntity>(_responseContent, DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
@@ -2246,6 +2658,12 @@ namespace HomeAutomationClient
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -2260,7 +2678,7 @@ namespace HomeAutomationClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 204)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -2346,6 +2764,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -2445,6 +2869,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -2521,10 +2951,13 @@ namespace HomeAutomationClient
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiSensorPostWithHttpMessagesAsync(SensorEntity sensorEntity = default(SensorEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<SensorEntity>> ApiSensorPostWithHttpMessagesAsync(SensorEntity sensorEntity = default(SensorEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (sensorEntity != null)
             {
@@ -2572,6 +3005,12 @@ namespace HomeAutomationClient
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -2586,7 +3025,7 @@ namespace HomeAutomationClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 201)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -2609,9 +3048,27 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse();
+            var _result = new HttpOperationResponse<SensorEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 201)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = SafeJsonConvert.DeserializeObject<SensorEntity>(_responseContent, DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
@@ -2630,10 +3087,13 @@ namespace HomeAutomationClient
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiSensorByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<SensorEntity>> ApiSensorByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -2672,6 +3132,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -2709,9 +3175,27 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse();
+            var _result = new HttpOperationResponse<SensorEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 200)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = SafeJsonConvert.DeserializeObject<SensorEntity>(_responseContent, DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
@@ -2785,6 +3269,12 @@ namespace HomeAutomationClient
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -2799,7 +3289,7 @@ namespace HomeAutomationClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 204)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -2885,6 +3375,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -2984,6 +3480,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -3060,10 +3562,13 @@ namespace HomeAutomationClient
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiSettingPostWithHttpMessagesAsync(SettingEntity settingEntity = default(SettingEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<SettingEntity>> ApiSettingPostWithHttpMessagesAsync(SettingEntity settingEntity = default(SettingEntity), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (settingEntity != null)
             {
@@ -3111,6 +3616,12 @@ namespace HomeAutomationClient
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -3125,7 +3636,7 @@ namespace HomeAutomationClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 201)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -3148,9 +3659,27 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse();
+            var _result = new HttpOperationResponse<SettingEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 201)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = SafeJsonConvert.DeserializeObject<SettingEntity>(_responseContent, DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
@@ -3169,10 +3698,13 @@ namespace HomeAutomationClient
         /// <exception cref="HttpOperationException">
         /// Thrown when the operation returned an invalid status code
         /// </exception>
+        /// <exception cref="SerializationException">
+        /// Thrown when unable to deserialize the response
+        /// </exception>
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse> ApiSettingByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<SettingEntity>> ApiSettingByIdGetWithHttpMessagesAsync(int id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -3211,6 +3743,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -3248,9 +3786,27 @@ namespace HomeAutomationClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse();
+            var _result = new HttpOperationResponse<SettingEntity>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
+            // Deserialize Response
+            if ((int)_statusCode == 200)
+            {
+                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                try
+                {
+                    _result.Body = SafeJsonConvert.DeserializeObject<SettingEntity>(_responseContent, DeserializationSettings);
+                }
+                catch (JsonException ex)
+                {
+                    _httpRequest.Dispose();
+                    if (_httpResponse != null)
+                    {
+                        _httpResponse.Dispose();
+                    }
+                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
+                }
+            }
             if (_shouldTrace)
             {
                 ServiceClientTracing.Exit(_invocationId, _result);
@@ -3324,6 +3880,12 @@ namespace HomeAutomationClient
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json-patch+json; charset=utf-8");
             }
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
@@ -3338,7 +3900,7 @@ namespace HomeAutomationClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 200)
+            if ((int)_statusCode != 204)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -3424,6 +3986,12 @@ namespace HomeAutomationClient
 
             // Serialize Request
             string _requestContent = null;
+            // Set Credentials
+            if (Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
             // Send Request
             if (_shouldTrace)
             {
