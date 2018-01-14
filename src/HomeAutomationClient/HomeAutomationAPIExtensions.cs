@@ -58,16 +58,22 @@ namespace HomeAutomationClient
                 }
             }
 
+            /// <summary>
+            /// Posts Device to server
+            /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='deviceEntity'>
             /// </param>
-            public static void ApiDevicePost(this IHomeAutomationAPI operations, DeviceEntity deviceEntity = default(DeviceEntity))
+            public static DeviceEntity ApiDevicePost(this IHomeAutomationAPI operations, DeviceEntity deviceEntity = default(DeviceEntity))
             {
-                operations.ApiDevicePostAsync(deviceEntity).GetAwaiter().GetResult();
+                return operations.ApiDevicePostAsync(deviceEntity).GetAwaiter().GetResult();
             }
 
+            /// <summary>
+            /// Posts Device to server
+            /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
@@ -76,9 +82,12 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiDevicePostAsync(this IHomeAutomationAPI operations, DeviceEntity deviceEntity = default(DeviceEntity), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<DeviceEntity> ApiDevicePostAsync(this IHomeAutomationAPI operations, DeviceEntity deviceEntity = default(DeviceEntity), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiDevicePostWithHttpMessagesAsync(deviceEntity, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.ApiDevicePostWithHttpMessagesAsync(deviceEntity, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
@@ -86,9 +95,9 @@ namespace HomeAutomationClient
             /// </param>
             /// <param name='id'>
             /// </param>
-            public static void ApiDeviceByIdGet(this IHomeAutomationAPI operations, int id)
+            public static DeviceEntity ApiDeviceByIdGet(this IHomeAutomationAPI operations, int id)
             {
-                operations.ApiDeviceByIdGetAsync(id).GetAwaiter().GetResult();
+                return operations.ApiDeviceByIdGetAsync(id).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -99,9 +108,12 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiDeviceByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<DeviceEntity> ApiDeviceByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiDeviceByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.ApiDeviceByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
@@ -181,9 +193,9 @@ namespace HomeAutomationClient
             /// </param>
             /// <param name='deviceSensorEntity'>
             /// </param>
-            public static void ApiDeviceSensorPost(this IHomeAutomationAPI operations, DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity))
+            public static DeviceEntity ApiDeviceSensorPost(this IHomeAutomationAPI operations, DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity))
             {
-                operations.ApiDeviceSensorPostAsync(deviceSensorEntity).GetAwaiter().GetResult();
+                return operations.ApiDeviceSensorPostAsync(deviceSensorEntity).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -194,9 +206,12 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiDeviceSensorPostAsync(this IHomeAutomationAPI operations, DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<DeviceEntity> ApiDeviceSensorPostAsync(this IHomeAutomationAPI operations, DeviceSensorEntity deviceSensorEntity = default(DeviceSensorEntity), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiDeviceSensorPostWithHttpMessagesAsync(deviceSensorEntity, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.ApiDeviceSensorPostWithHttpMessagesAsync(deviceSensorEntity, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
@@ -204,9 +219,9 @@ namespace HomeAutomationClient
             /// </param>
             /// <param name='id'>
             /// </param>
-            public static void ApiDeviceSensorByIdGet(this IHomeAutomationAPI operations, int id)
+            public static DeviceEntity ApiDeviceSensorByIdGet(this IHomeAutomationAPI operations, int id)
             {
-                operations.ApiDeviceSensorByIdGetAsync(id).GetAwaiter().GetResult();
+                return operations.ApiDeviceSensorByIdGetAsync(id).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -217,9 +232,12 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiDeviceSensorByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<DeviceEntity> ApiDeviceSensorByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiDeviceSensorByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.ApiDeviceSensorByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
@@ -299,9 +317,9 @@ namespace HomeAutomationClient
             /// </param>
             /// <param name='deviceTypeEntity'>
             /// </param>
-            public static void ApiDeviceTypePost(this IHomeAutomationAPI operations, DeviceTypeEntity deviceTypeEntity = default(DeviceTypeEntity))
+            public static DeviceTypeEntity ApiDeviceTypePost(this IHomeAutomationAPI operations, DeviceTypeEntity deviceTypeEntity = default(DeviceTypeEntity))
             {
-                operations.ApiDeviceTypePostAsync(deviceTypeEntity).GetAwaiter().GetResult();
+                return operations.ApiDeviceTypePostAsync(deviceTypeEntity).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -312,9 +330,12 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiDeviceTypePostAsync(this IHomeAutomationAPI operations, DeviceTypeEntity deviceTypeEntity = default(DeviceTypeEntity), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<DeviceTypeEntity> ApiDeviceTypePostAsync(this IHomeAutomationAPI operations, DeviceTypeEntity deviceTypeEntity = default(DeviceTypeEntity), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiDeviceTypePostWithHttpMessagesAsync(deviceTypeEntity, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.ApiDeviceTypePostWithHttpMessagesAsync(deviceTypeEntity, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
@@ -322,9 +343,9 @@ namespace HomeAutomationClient
             /// </param>
             /// <param name='id'>
             /// </param>
-            public static void ApiDeviceTypeByIdGet(this IHomeAutomationAPI operations, int id)
+            public static DeviceTypeEntity ApiDeviceTypeByIdGet(this IHomeAutomationAPI operations, int id)
             {
-                operations.ApiDeviceTypeByIdGetAsync(id).GetAwaiter().GetResult();
+                return operations.ApiDeviceTypeByIdGetAsync(id).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -335,9 +356,12 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiDeviceTypeByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<DeviceTypeEntity> ApiDeviceTypeByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiDeviceTypeByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.ApiDeviceTypeByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
@@ -417,9 +441,9 @@ namespace HomeAutomationClient
             /// </param>
             /// <param name='locationEntity'>
             /// </param>
-            public static void ApiLocationPost(this IHomeAutomationAPI operations, LocationEntity locationEntity = default(LocationEntity))
+            public static LocationEntity ApiLocationPost(this IHomeAutomationAPI operations, LocationEntity locationEntity = default(LocationEntity))
             {
-                operations.ApiLocationPostAsync(locationEntity).GetAwaiter().GetResult();
+                return operations.ApiLocationPostAsync(locationEntity).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -430,9 +454,12 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiLocationPostAsync(this IHomeAutomationAPI operations, LocationEntity locationEntity = default(LocationEntity), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<LocationEntity> ApiLocationPostAsync(this IHomeAutomationAPI operations, LocationEntity locationEntity = default(LocationEntity), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiLocationPostWithHttpMessagesAsync(locationEntity, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.ApiLocationPostWithHttpMessagesAsync(locationEntity, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
@@ -440,9 +467,9 @@ namespace HomeAutomationClient
             /// </param>
             /// <param name='id'>
             /// </param>
-            public static void ApiLocationByIdGet(this IHomeAutomationAPI operations, int id)
+            public static LocationEntity ApiLocationByIdGet(this IHomeAutomationAPI operations, int id)
             {
-                operations.ApiLocationByIdGetAsync(id).GetAwaiter().GetResult();
+                return operations.ApiLocationByIdGetAsync(id).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -453,9 +480,12 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiLocationByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<LocationEntity> ApiLocationByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiLocationByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.ApiLocationByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
@@ -535,9 +565,9 @@ namespace HomeAutomationClient
             /// </param>
             /// <param name='sensorEntity'>
             /// </param>
-            public static void ApiSensorPost(this IHomeAutomationAPI operations, SensorEntity sensorEntity = default(SensorEntity))
+            public static SensorEntity ApiSensorPost(this IHomeAutomationAPI operations, SensorEntity sensorEntity = default(SensorEntity))
             {
-                operations.ApiSensorPostAsync(sensorEntity).GetAwaiter().GetResult();
+                return operations.ApiSensorPostAsync(sensorEntity).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -548,9 +578,12 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiSensorPostAsync(this IHomeAutomationAPI operations, SensorEntity sensorEntity = default(SensorEntity), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<SensorEntity> ApiSensorPostAsync(this IHomeAutomationAPI operations, SensorEntity sensorEntity = default(SensorEntity), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiSensorPostWithHttpMessagesAsync(sensorEntity, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.ApiSensorPostWithHttpMessagesAsync(sensorEntity, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
@@ -558,9 +591,9 @@ namespace HomeAutomationClient
             /// </param>
             /// <param name='id'>
             /// </param>
-            public static void ApiSensorByIdGet(this IHomeAutomationAPI operations, int id)
+            public static SensorEntity ApiSensorByIdGet(this IHomeAutomationAPI operations, int id)
             {
-                operations.ApiSensorByIdGetAsync(id).GetAwaiter().GetResult();
+                return operations.ApiSensorByIdGetAsync(id).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -571,9 +604,12 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiSensorByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<SensorEntity> ApiSensorByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiSensorByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.ApiSensorByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
@@ -653,9 +689,9 @@ namespace HomeAutomationClient
             /// </param>
             /// <param name='settingEntity'>
             /// </param>
-            public static void ApiSettingPost(this IHomeAutomationAPI operations, SettingEntity settingEntity = default(SettingEntity))
+            public static SettingEntity ApiSettingPost(this IHomeAutomationAPI operations, SettingEntity settingEntity = default(SettingEntity))
             {
-                operations.ApiSettingPostAsync(settingEntity).GetAwaiter().GetResult();
+                return operations.ApiSettingPostAsync(settingEntity).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -666,9 +702,12 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiSettingPostAsync(this IHomeAutomationAPI operations, SettingEntity settingEntity = default(SettingEntity), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<SettingEntity> ApiSettingPostAsync(this IHomeAutomationAPI operations, SettingEntity settingEntity = default(SettingEntity), CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiSettingPostWithHttpMessagesAsync(settingEntity, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.ApiSettingPostWithHttpMessagesAsync(settingEntity, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
@@ -676,9 +715,9 @@ namespace HomeAutomationClient
             /// </param>
             /// <param name='id'>
             /// </param>
-            public static void ApiSettingByIdGet(this IHomeAutomationAPI operations, int id)
+            public static SettingEntity ApiSettingByIdGet(this IHomeAutomationAPI operations, int id)
             {
-                operations.ApiSettingByIdGetAsync(id).GetAwaiter().GetResult();
+                return operations.ApiSettingByIdGetAsync(id).GetAwaiter().GetResult();
             }
 
             /// <param name='operations'>
@@ -689,9 +728,12 @@ namespace HomeAutomationClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task ApiSettingByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<SettingEntity> ApiSettingByIdGetAsync(this IHomeAutomationAPI operations, int id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.ApiSettingByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false)).Dispose();
+                using (var _result = await operations.ApiSettingByIdGetWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
             }
 
             /// <param name='operations'>
