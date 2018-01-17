@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using HomeAutomationClient;
-using HomeAutomationClient.ConfigModels;
-using HomeAutomationClient.Models;
+using PiLight.ConfigModels;
 using System.Net;
+using Microsoft.Rest;
+using HomeAutomationClient;
+using HomeAutomationClient.Models;
 
 namespace PiLight
 {
@@ -31,9 +30,12 @@ namespace PiLight
 
             services.Configure<DeviceConfig>(Configuration.GetSection("DeviceConfig"));
 
+            var credentials = new TokenCredentials((new Guid()).ToString());
+            
+
             services.AddTransient<IHomeAutomationAPI, HomeAutomationAPI>(service => 
             {
-                return new HomeAutomationAPI(null);
+                return new HomeAutomationAPI(baseUri: new Uri("https://localhost:44339", UriKind.Absolute), credentials: credentials, handlers: null);
             });
 
         }
@@ -46,12 +48,12 @@ namespace PiLight
                 app.UseDeveloperExceptionPage();
             }
 
-
+            ConfigureDevice(homeAutomationAPI, deviceConfig.Value);
 
             app.UseMvc();
         }
 
-        private void ConfigureDevice(IHomeAutomationAPI homeAutomationAPI, DeviceConfig deviceConfig)
+        public void ConfigureDevice(IHomeAutomationAPI homeAutomationAPI, DeviceConfig deviceConfig)
         {
             var locations = homeAutomationAPI.ApiLocationGet();
             var deviceTypes = homeAutomationAPI.ApiDeviceTypeGet();
