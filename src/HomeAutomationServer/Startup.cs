@@ -14,6 +14,8 @@ using HomeAutomationServer.Services;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
+using HomeAutomationLibrary.Authorisation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HomeAutomationServer
 {
@@ -35,6 +37,13 @@ namespace HomeAutomationServer
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("API_Key", policy =>
+                    policy.Requirements.Add(new AuthoriseAPIKeyRequirement("ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAnSDpmsrK2UGSKYUwFdB3WWNXqd30BomW/ggkcTd34253HBO4cbMnIBlBxhyjaGWCqakVozrXXsU/j6FUS36RVGiK7N4zHQYRKMtCj3WRp408VJ6qiyDU0tBzR4+YUQ+t09+ydIMqVMadswIV05mKGFuvPgr+zBD/U2YsYtY5fEal4d14oieLbjkSHeG8OfWeCx8f28HFptb5Y54OAA7d18QoZ+sUIw7JwYzgFhJVSsPVVnMED1hl2u/FHtMS75WL3gsyGsFdAa3FzcXW6PsVAcVCbcx2jja9BfHCxU0QQeWuygKnXuCKkI4rr+GX7Azq3vRpTKjX9vsN+uRHeD4AVw==")));
+            });
+            services.AddSingleton<IAuthorizationHandler, AuthoriseAPIKeyHandler>();
 
             services.AddMvc()
                 .AddRazorPagesOptions(options =>

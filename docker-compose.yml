@@ -1,8 +1,0 @@
-version: '3'
-
-services:
-  homeautomationserver:
-    image: homeautomationserver
-    build:
-      context: ./src/HomeAutomationServer
-      dockerfile: Dockerfile

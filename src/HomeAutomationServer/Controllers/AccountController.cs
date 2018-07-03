@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HomeAutomationServer.Data;
+using Devices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HomeAutomationServer.Controllers
 {
@@ -28,6 +30,14 @@ namespace HomeAutomationServer.Controllers
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
             return RedirectToPage("/Index");
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "API_Key")]
+        public async Task<IActionResult> RegisterDevice(DeviceConfig deviceConfig)
+        {
+            
+            return Ok();
         }
     }
 }

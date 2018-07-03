@@ -19,11 +19,6 @@ namespace HomeAutomationServer.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
-        public DbSet<DeviceEntity> Devices { get; set; }
-        public DbSet<DeviceTypeEntity> DeviceTypes { get; set; }
-        public DbSet<LocationEntity> Locations { get; set; }
-        public DbSet<SensorEntity> Sensors { get; set; }
-        public DbSet<DeviceSensorEntity> DeviceSensors { get; set; }
         public DbSet<SettingEntity> Settings { get; set; }
     }
 }
