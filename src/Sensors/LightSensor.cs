@@ -8,22 +8,15 @@
     /// GPIO Light Sensor
     /// Requires Power (VCC), Ground and a Digital or Analogue GPIO Pin
     /// </summary>
-    public class LightSensor
+    public class LightSensor : Sensorbase
     {
-        private readonly SignalMode signalMode;
-        private readonly int outputPin;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="LightSensor"/> class.
         /// </summary>
         /// <param name="gpio">GPIO interface for reading and writing to the GPIO pins</param>
-        /// <param name="signalMode">Signal mode of the Sensor</param>
-        /// <param name="outputPin">Pin to Read from</param>
-        public LightSensor(IGpio gpio, SignalMode signalMode, int outputPin)
+        public LightSensor(IGpio gpio)
+            : base(gpio)
         {
-            this.Gpio = gpio;
-            this.signalMode = signalMode;
-            this.outputPin = outputPin;
         }
 
         /// <summary>
@@ -37,18 +30,16 @@
 
         private static int MaxLightDetected { get; set; }
 
-        private IGpio Gpio { get; }
-
         /// <summary>
         /// Read LightSensor
         /// </summary>
         /// <returns>True if light is Sensed</returns>
         public bool LightDetected()
         {
-            switch (this.signalMode)
+            switch (this.SensorConfig.SignalMode)
             {
                 case SignalMode.Digital:
-                    return this.Gpio.Read(this.outputPin);
+                    return this.Gpio.Read(this.SensorConfig.GpioOutputPin);
                 default:
                     return this.AnalogueLightDetector();
             }
@@ -60,7 +51,7 @@
         /// <returns>True if Light has been Detected</returns>
         private bool AnalogueLightDetector()
         {
-            var resultFromSensor = this.Gpio.ReadLevel(this.outputPin);
+            var resultFromSensor = this.Gpio.ReadLevel(this.SensorConfig.GpioOutputPin);
 
             var maximumLight = MaxLightDetected == 0 ? 1000 : MaxLightDetected;
             var minPercentageOfLight = this.MinPercentageOfLight == 0 ? 30 : this.MinPercentageOfLight;

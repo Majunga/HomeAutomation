@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Sensors;
     using Sensors.Gpio;
 
     public class Startup
@@ -18,7 +19,19 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IGpio, UnosquareGpio>();
+            var sensorsUnitOfWork = new SensorFactory(new UnosquareGpio());
+            sensorsUnitOfWork.LightSensor.SensorConfig = new SensorConfig
+            {
+                SignalMode = Sensors.Enums.SignalMode.Analogue,
+                GpioOutputPin = 7
+            };
+            sensorsUnitOfWork.MoistureSensor.SensorConfig = new SensorConfig
+            {
+                SignalMode = Sensors.Enums.SignalMode.Digital,
+                GpioOutputPin = 12
+            };
+
+            services.AddSingleton(sensorsUnitOfWork);
 
             services.AddLogging();
 

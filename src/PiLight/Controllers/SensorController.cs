@@ -9,12 +9,12 @@
 
     public class SensorController : Controller
     {
-        private IGpio gpio;
+        private readonly SensorFactory sensorsUnitOfWork;
         private readonly ILogger logger;
 
-        public SensorController(IGpio gpio, ILogger logger)
+        public SensorController(SensorFactory sensorsUnitOfWork, ILogger logger)
         {
-            this.gpio = gpio;
+            this.sensorsUnitOfWork = sensorsUnitOfWork;
             this.logger = logger;
         }
 
@@ -27,15 +27,13 @@
                 switch (sensorType)
                 {
                     case SensorType.Light:
-                        var lightSensor = new LightSensor(this.gpio, SignalMode.Analogue, 7);
-                        var lightDetected = lightSensor.LightDetected();
+                        var lightDetected = this.sensorsUnitOfWork.LightSensor.LightDetected();
 
                         this.logger.LogDebug("LightSensor Reading:", new { Result = lightDetected });
 
                         return this.Ok(new { Result = lightDetected });
                     case SensorType.Moisture:
-                        var moistureSensor = new MoistureSensor(this.gpio, 6);
-                        var isMoist = moistureSensor.IsMoist();
+                        var isMoist = this.sensorsUnitOfWork.MoistureSensor.IsMoist();
 
                         this.logger.LogDebug("MoistureSensor Reading:", new { Result = isMoist });
 
