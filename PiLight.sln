@@ -9,11 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitDependencies", "GitDepen
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B52787FD-9B0B-419D-866F-95DD33E8EAD0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PiLight", "src\PiLight\PiLight.csproj", "{3475D7D7-7E5F-4B9D-AB79-790C2BEEF439}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeAutomationClient", "src\PiLight\HomeAutomationClient.csproj", "{3475D7D7-7E5F-4B9D-AB79-790C2BEEF439}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sensors", "src\Sensors\Sensors.csproj", "{A733AA0B-5EAB-415A-A8E4-30CDBE0E60E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAutomationLibrary", "src\HomeAutomationLibrary\HomeAutomationLibrary.csproj", "{18B8720D-A812-4598-81EE-0688A9A5D61A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeAutomationLibrary", "src\HomeAutomationLibrary\HomeAutomationLibrary.csproj", "{18B8720D-A812-4598-81EE-0688A9A5D61A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Devices", "src\Devices\Devices.csproj", "{0D213821-1622-4B5C-866E-82D8F7CE281F}"
 EndProject

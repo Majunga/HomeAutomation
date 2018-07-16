@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace HomeAutomationServer.Data.Entities
 {
     [Table("HA_Setting")]
-    public class SettingEntity : EntityBaseClass
+    public class SettingEntity //: EntityBaseClass
     {
         [Required]
         public string Key { get; set; }

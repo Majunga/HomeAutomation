@@ -23,7 +23,11 @@
 
         private IGpio Gpio { get; }
 
-        public bool ReadSensor()
+        /// <summary>
+        /// Check sensor to see if it is moist
+        /// </summary>
+        /// <returns>True if the sensor is moist</returns>
+        public bool IsMoist()
         {
             return this.Gpio.Read(this.outputPin);
         }
