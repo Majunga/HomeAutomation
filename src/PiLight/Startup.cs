@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Sensors.Gpio;
-
-namespace HomeAutomationClient
+﻿namespace HomeAutomationClient
 {
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Sensors.Gpio;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -19,10 +18,11 @@ namespace HomeAutomationClient
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-
             services.AddSingleton<IGpio, UnosquareGpio>();
 
+            services.AddLogging();
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
