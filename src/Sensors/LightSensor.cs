@@ -62,7 +62,7 @@
                 return true;
             }
 
-            var percentageOfLight = resultFromSensor / maximumLight;
+            var percentageOfLight = ((double)resultFromSensor / (double)maximumLight) * 100;
 
             if (percentageOfLight > minPercentageOfLight)
             {
