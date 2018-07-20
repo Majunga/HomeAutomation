@@ -1,5 +1,6 @@
 ﻿namespace HomeAutomationClient
 {
+    using System;
     using System.IO;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -20,11 +21,11 @@
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services, IHostingEnvironment env)
+        public void ConfigureServices(IServiceCollection services)
         {
             var sensorsUnitOfWork = new SensorFactory(new UnosquareGpio());
-
-            if (env.IsDevelopment())
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            if (string.IsNullOrWhiteSpace(env) || env == "Development")
             {
                 sensorsUnitOfWork = new SensorFactory(new MockGpio());
             }
