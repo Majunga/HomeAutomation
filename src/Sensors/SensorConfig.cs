@@ -5,6 +5,11 @@
     using System.Text;
     using Sensors.Enums;
 
+    public class SensorsConfig
+    {
+        public List<SensorConfig> SensorConfigs { get; set; }
+    }
+
     public class SensorConfig
     {
         /// <summary>
@@ -21,5 +26,10 @@
         /// Gets or sets signal mode of the Sensor
         /// </summary>
         public SignalMode SignalMode { get; set; }
+
+        /// <summary>
+        /// Gets or sets sensor type
+        /// </summary>
+        public SensorType SensorType { get; set; }
     }
 }

@@ -2,12 +2,16 @@
 {
     using System;
     using System.IO;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using HomeAutomationLibrary.Configs;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.PlatformAbstractions;
     using Sensors;
+    using Sensors.Enums;
     using Sensors.Gpio;
     using Swashbuckle.AspNetCore.Swagger;
 
@@ -23,6 +27,7 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<SensorSettings>(this.Configuration.GetSection(nameof(SensorSettings)));
             var sensorsUnitOfWork = new SensorFactory(new UnosquareGpio());
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             if (string.IsNullOrWhiteSpace(env) || env == "Development")
@@ -30,16 +35,24 @@
                 sensorsUnitOfWork = new SensorFactory(new MockGpio());
             }
 
-            sensorsUnitOfWork.LightSensor.SensorConfig = new SensorConfig
+            var sensors = this.Configuration.Get<SensorSettings>();
+
+            if (sensors.SensorSetting?.Count > 0)
             {
-                SignalMode = Sensors.Enums.SignalMode.Analogue,
-                GpioOutputPin = 7
-            };
-            sensorsUnitOfWork.MoistureSensor.SensorConfig = new SensorConfig
-            {
-                SignalMode = Sensors.Enums.SignalMode.Digital,
-                GpioOutputPin = 12
-            };
+                var lightSensor = sensors.SensorSetting?.Where(x => x.SensorType == (int)SensorType.Light);
+                var moistureSensor = sensors.SensorSetting?.Where(x => x.SensorType == (int)SensorType.Moisture);
+                if (lightSensor.Any())
+                {
+                    sensorsUnitOfWork.LightSensor.SensorConfig = lightSensor.Select(this.SelectSensorConfig()).SingleOrDefault();
+                    sensorsUnitOfWork.LightSensorActive = true;
+                }
+
+                if (moistureSensor.Any())
+                {
+                    sensorsUnitOfWork.MoistureSensor.SensorConfig = moistureSensor.Select(this.SelectSensorConfig()).SingleOrDefault();
+                    sensorsUnitOfWork.MoistureSensorActive = true;
+                }
+            }
 
             services.AddSingleton(sensorsUnitOfWork);
 
@@ -72,6 +85,20 @@
 
             app.UseStaticFiles();
             app.UseMvc();
+        }
+
+        private Func<SensorSetting, SensorConfig> SelectSensorConfig()
+        {
+            return x =>
+            {
+                return new SensorConfig
+                {
+                    GpioInputPin = x.WritePin ?? 0,
+                    GpioOutputPin = x.ReadPin ?? 0,
+                    SensorType = (SensorType)Enum.Parse(typeof(SensorType), x.SensorType.ToString()),
+                    SignalMode = (SignalMode)Enum.Parse(typeof(SignalMode), x.SensorType.ToString())
+                };
+            };
         }
     }
 }

@@ -14,6 +14,8 @@
             this.gpio = gpio;
         }
 
+        public bool LightSensorActive { get; set; }
+
         public LightSensor LightSensor
         {
             get
@@ -26,6 +28,8 @@
                 return this.lightSensor;
             }
         }
+
+        public bool MoistureSensorActive { get; set; }
 
         public MoistureSensor MoistureSensor
         {

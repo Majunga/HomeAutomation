@@ -31,12 +31,22 @@
                 switch (sensorType)
                 {
                     case SensorType.Light:
+                        if (!this.sensorsUnitOfWork.LightSensorActive)
+                        {
+                            return this.NotFound();
+                        }
+
                         var lightDetected = this.sensorsUnitOfWork.LightSensor.LightDetected();
 
                         this.logger.LogDebug("LightSensor Reading:", new { Result = lightDetected });
 
                         return this.Ok(new SensorResponse { Result = lightDetected });
                     case SensorType.Moisture:
+                        if (!this.sensorsUnitOfWork.MoistureSensorActive)
+                        {
+                            return this.NotFound();
+                        }
+
                         var isMoist = this.sensorsUnitOfWork.MoistureSensor.IsMoist();
 
                         this.logger.LogDebug("MoistureSensor Reading:", new { Result = isMoist });
