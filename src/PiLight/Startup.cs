@@ -3,7 +3,6 @@
     using System;
     using System.IO;
     using System.Linq;
-    using System.Linq.Expressions;
     using HomeAutomationLibrary.Configs;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;

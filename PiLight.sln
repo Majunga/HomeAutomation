@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeAutomationLibrary", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Devices", "src\Devices\Devices.csproj", "{0D213821-1622-4B5C-866E-82D8F7CE281F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAutomationLibraryTests", "test\HomeAutomationLibraryTests\HomeAutomationLibraryTests.csproj", "{A3C2CB0B-E226-46A2-9540-E0960119BAC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,9 +45,16 @@ Global
 		{0D213821-1622-4B5C-866E-82D8F7CE281F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D213821-1622-4B5C-866E-82D8F7CE281F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D213821-1622-4B5C-866E-82D8F7CE281F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3C2CB0B-E226-46A2-9540-E0960119BAC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3C2CB0B-E226-46A2-9540-E0960119BAC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3C2CB0B-E226-46A2-9540-E0960119BAC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3C2CB0B-E226-46A2-9540-E0960119BAC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A3C2CB0B-E226-46A2-9540-E0960119BAC7} = {B52787FD-9B0B-419D-866F-95DD33E8EAD0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {430B4193-C754-4988-B846-147A2057AE95}
